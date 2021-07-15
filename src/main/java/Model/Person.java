@@ -1,6 +1,5 @@
 package Model;
 
-
 import javax.xml.bind.annotation.XmlRootElement;
 import java.sql.Date;
 

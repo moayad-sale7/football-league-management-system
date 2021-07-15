@@ -18,28 +18,28 @@ public class CoachResource
     public CoachResource() throws SQLException, ClassNotFoundException {}
 
     @GET
-    public List<Coach> getCoaches(@PathParam("clubId") int clubId) throws SQLException
+    public List<Coach> getCoaches(@PathParam("clubName") String clubName) throws SQLException
     {
-        return coachService.getCoaches(clubId);
+        return coachService.getCoaches(clubName);
     }
 
     @POST
-    public Coach addCoach(@PathParam("clubId") int clubId, Coach coach) throws SQLException
+    public Coach addCoach(@PathParam("clubName") String clubName, Coach coach) throws SQLException
     {
-        return coachService.addCoach(clubId, coach);
+        return coachService.addCoach(clubName, coach);
     }
 
     @PUT
     @Path("{coachId}")
-    public Coach updateCoach(@PathParam("clubId") int clubId, @PathParam("coachId") int coachId, Coach coach) throws SQLException
+    public Coach updateCoach(@PathParam("clubName") String clubName, @PathParam("coachId") int coachId, Coach coach) throws SQLException
     {
-        return coachService.updateCoach(clubId, coachId, coach);
+        return coachService.updateCoach(clubName, coachId, coach);
     }
 
     @DELETE
     @Path("{coachId}")
-    public void deleteCoach(@PathParam("clubId") int clubId, @PathParam("coachId") int coachId) throws SQLException
+    public void deleteCoach(@PathParam("clubName") String clubName, @PathParam("coachId") int coachId) throws SQLException
     {
-        coachService.deleteCoach(clubId, coachId);
+        coachService.deleteCoach(clubName, coachId);
     }
 }

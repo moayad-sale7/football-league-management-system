@@ -59,7 +59,7 @@ public class ClubResource
     }
 
     //subresource "coach"
-    @Path("{clubId}/coaches")
+    @Path("{clubName}/coaches")
     public CoachResource coachResource() throws SQLException, ClassNotFoundException
     {
         return new CoachResource();
