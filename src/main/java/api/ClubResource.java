@@ -17,7 +17,7 @@ public class ClubResource
 
     public ClubResource() throws SQLException, ClassNotFoundException {}
 
-    //Main method for club
+    //Main methods for club
     @GET
     public List<Club> getClubs() throws SQLException, ClassNotFoundException
     {

@@ -63,27 +63,27 @@ public class CoachService
         return coach;
     }
 
-    public Coach updateCoach(String clubName, int coachId , Coach coach) throws SQLException
+    public Coach updateCoach(String clubName, String coachName , Coach coach) throws SQLException
     {
         String name = (coach.getName() == null) ? "" : coach.getName();
         Date birthOfDate = (coach.getBirthOfDate() == null) ? null :coach.getBirthOfDate();
         String nationality = (coach.getNationality() == null) ? "" : coach.getNationality();
         String gender = (coach.getGender() == null) ? "" : coach.getGender();
         String FirstCharUpperCaseClubName = clubName.substring(0, 1).toUpperCase() + clubName.substring(1);
-
+/*
         coach.setName(name);
         coach.setBirthOfDate(birthOfDate);
         coach.setNationality(nationality);
         coach.setGender(gender);
         coach.setId(coachId);
-
+*/
         String query =
                 "UPDATE coach SET " +
                         "name= CASE WHEN ?='' THEN name ELSE ? END, " +
                         "nationality= CASE WHEN ?='' THEN nationality ELSE ? END, " +
                         "gender= CASE WHEN ?='' THEN gender ELSE ? END, " +
                         "birth_of_date= CASE WHEN ? !=null THEN ? ELSE birth_of_date END " +
-                        "WHERE id=? AND club_name=?";
+                        "WHERE name=? AND club_name=?";
 
         PreparedStatement preparedStatement = dbConnection.prepareStatement(query);
 
@@ -99,7 +99,7 @@ public class CoachService
         preparedStatement.setDate(7, birthOfDate);
         preparedStatement.setDate(8, birthOfDate);
 
-        preparedStatement.setInt(9, coachId);
+        preparedStatement.setString(9, coachName);
         preparedStatement.setString(10, FirstCharUpperCaseClubName);
 
         preparedStatement.executeUpdate();
@@ -107,13 +107,13 @@ public class CoachService
         return coach;
     }
 
-    public void deleteCoach(String clubName, int coachId) throws SQLException
+    public void deleteCoach(String clubName, String coachName) throws SQLException
     {
         String FirstCharUpperCaseClubName = clubName.substring(0, 1).toUpperCase() + clubName.substring(1);
-        String query = "DELETE FROM coach WHERE id=? AND club_name=?";
+        String query = "DELETE FROM coach WHERE name=? AND club_name=?";
 
         PreparedStatement preparedStatement = dbConnection.prepareStatement(query);
-        preparedStatement.setInt(1, coachId);
+        preparedStatement.setString(1, coachName);
         preparedStatement.setString(2, FirstCharUpperCaseClubName);
         try
         {

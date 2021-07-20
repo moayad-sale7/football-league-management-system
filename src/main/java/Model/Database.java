@@ -14,15 +14,4 @@ public class Database
         Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
         return connection;
     }
-
-    public static int getSizeOfTable(String table) throws SQLException, ClassNotFoundException
-    {
-        String query = "SELECT COUNT(*) FROM " + table;
-        Statement statement = dbConnection().createStatement();
-        ResultSet result = statement.executeQuery(query);
-
-        result.next();
-        int count = result.getInt(1);
-        return count;
-    }
 }

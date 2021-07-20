@@ -6,6 +6,7 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.List;
 
 @Path("/")
@@ -17,16 +18,22 @@ public class PlayerResource
     public PlayerResource() throws SQLException, ClassNotFoundException {}
 
     @GET
-    public List<Player> getPlayersByClub(@PathParam("clubName") String clubName) throws SQLException
+    public List<Player> getPlayers(@PathParam("clubName") String clubName,
+                                   @QueryParam("name") String playerName,
+                                   @QueryParam("date") String date,
+                                   @QueryParam("nationality") String nationality,
+                                   @QueryParam("position") String position) throws SQLException
     {
-        return playerService.getPlayers(clubName);
-    }
-
-    @GET
-    @Path("{playerId}")
-    public Player getPlayersById(@PathParam("clubName") String clubName, @PathParam("playerId") int id) throws SQLException
-    {
-        return playerService.getPlayerById(clubName, id);
+        if(playerName != null)
+            return Arrays.asList(playerService.getPlayerByName(clubName, playerName));
+        else if(date != null)
+            return Arrays.asList(playerService.getPlayerByDate(clubName, date));
+        else if(nationality != null)
+            return Arrays.asList(playerService.getPlayerByNationality(clubName, nationality));
+        else if(position != null)
+            return Arrays.asList(playerService.getPlayerByPosition(clubName, position));
+        else
+            return playerService.getPlayers(clubName);
     }
 
     @POST
@@ -36,16 +43,16 @@ public class PlayerResource
     }
 
     @PUT
-    @Path("/{playerId}")
-    public Player updatePlayer(@PathParam("clubName") String clubName, @PathParam("playerId") int playerId, Player player) throws SQLException
+    public Player updatePlayer(@PathParam("clubName") String clubName,
+                               @QueryParam("id") int playerId, 
+                               Player player) throws SQLException
     {
         return playerService.updatePlayer(clubName, playerId, player);
     }
 
     @DELETE
-    @Path("{playerId}")
-    public void deletePlayer(@PathParam("playerId") int playerID) throws SQLException
+    public void deletePlayer(@QueryParam("id") int playerId) throws SQLException
     {
-        playerService.deletePlayer(playerID);
+        playerService.deletePlayer(playerId);
     }
 }

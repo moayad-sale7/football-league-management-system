@@ -30,16 +30,16 @@ public class CoachResource
     }
 
     @PUT
-    @Path("{coachId}")
-    public Coach updateCoach(@PathParam("clubName") String clubName, @PathParam("coachId") int coachId, Coach coach) throws SQLException
+    @Path("{coachName}")
+    public Coach updateCoach(@PathParam("clubName") String clubName, @PathParam("coachName") String coachName, Coach coach) throws SQLException
     {
-        return coachService.updateCoach(clubName, coachId, coach);
+        return coachService.updateCoach(clubName, coachName, coach);
     }
 
     @DELETE
-    @Path("{coachId}")
-    public void deleteCoach(@PathParam("clubName") String clubName, @PathParam("coachId") int coachId) throws SQLException
+    @Path("{coachName}")
+    public void deleteCoach(@PathParam("clubName") String clubName, @PathParam("coachName") String coachName) throws SQLException
     {
-        coachService.deleteCoach(clubName, coachId);
+        coachService.deleteCoach(clubName, coachName);
     }
 }
