@@ -4,7 +4,7 @@ import java.sql.*;
 
 public class Database
 {
-    private static final String URL = "jdbc:postgresql://localhost/spl";
+    private static final String URL = "jdbc:postgresql://localhost/football_league";
     private static final String USERNAME = "postgres";
     private static final String PASSWORD = "123";
 

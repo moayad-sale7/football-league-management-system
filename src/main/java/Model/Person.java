@@ -9,20 +9,16 @@ public class Person
     private int id;
     private String name;
     private Date birthOfDate;
-    private String nationality;
-    private String gender;
-    private String clubName;
+    private String country;
 
     public Person() {}
 
-    public Person(int id, String name, Date birthOfDate, String nationality, String gender, String clubName)
+    public Person(int id, String name, Date birthOfDate, String country)
     {
         this.id = id;
         this.name = name;
         this.birthOfDate = birthOfDate;
-        this.nationality = nationality;
-        this.gender = gender;
-        this.clubName = clubName;
+        this.country = country;
     }
 
     public int getId()
@@ -55,23 +51,13 @@ public class Person
         this.birthOfDate = birthOfDate;
     }
 
-    public String getNationality()
+    public String getCountry()
     {
-        return nationality;
+        return country;
     }
 
-    public void setNationality(String nationality)
+    public void setCountry(String country)
     {
-        this.nationality = nationality;
-    }
-
-    public String getGender()
-    {
-        return gender;
-    }
-
-    public void setGender(String gender)
-    {
-        this.gender = gender;
+        this.country = country;
     }
 }

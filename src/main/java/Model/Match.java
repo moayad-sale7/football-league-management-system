@@ -1,50 +1,61 @@
 package Model;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class Match
 {
     private int id;
-    private String firstClub;
-    private String secondClub;
+    private String clubHome;
+    private String clubAway;
     private Date dateOfMatch;
-    private boolean isFinished;
+    private String status;
     private String winner;
-    private int firstClubScore;
-    private int secondClubScore;
+    private int clubHomeScore;
+    private int clubAwayScore;
 
     public Match() {}
 
-    public Match(int id, String firstClub, String secondClub, Date dateOfMatch, boolean isFinished, String winner, int firstClubScore, int secondClubScore)
+    public Match(int id, String clubHome, String clubAway, Date dateOfMatch,
+                 String status, String winner, int clubHomeScore, int clubAwayScore)
     {
         this.id = id;
-        this.firstClub = firstClub;
-        this.secondClub = secondClub;
+        this.clubHome = clubHome;
+        this.clubAway = clubAway;
         this.dateOfMatch = dateOfMatch;
-        this.isFinished = isFinished;
+        this.status = status;
         this.winner = winner;
-        this.firstClubScore = firstClubScore;
-        this.secondClubScore = secondClubScore;
+        this.clubHomeScore = clubHomeScore;
+        this.clubAwayScore = clubAwayScore;
     }
 
-    public String getFirstClub()
+    public int getId()
     {
-        return firstClub;
+        return id;
     }
 
-    public void setFirstClub(String firstClub)
+    public void setId(int id)
     {
-        this.firstClub = firstClub;
+        this.id = id;
     }
 
-    public String getSecondClub()
+    public String getClubHome()
     {
-        return secondClub;
+        return clubHome;
     }
 
-    public void setSecondClub(String secondClub)
+    public void setClubHome(String clubHome)
     {
-        this.secondClub = secondClub;
+        this.clubHome = clubHome;
+    }
+
+    public String getClubAway()
+    {
+        return clubAway;
+    }
+
+    public void setClubAway(String clubAway)
+    {
+        this.clubAway = clubAway;
     }
 
     public Date getDateOfMatch()
@@ -57,14 +68,14 @@ public class Match
         this.dateOfMatch = dateOfMatch;
     }
 
-    public boolean isFinished()
+    public String getStatus()
     {
-        return isFinished;
+        return status;
     }
 
-    public void setFinished(boolean finished)
+    public void setStatus(String status)
     {
-        isFinished = finished;
+        this.status = status;
     }
 
     public String getWinner()
@@ -77,23 +88,23 @@ public class Match
         this.winner = winner;
     }
 
-    public int getFirstClubScore()
+    public int getClubHomeScore()
     {
-        return firstClubScore;
+        return clubHomeScore;
     }
 
-    public void setFirstClubScore(int firstClubScore)
+    public void setClubHomeScore(int clubHomeScore)
     {
-        this.firstClubScore = firstClubScore;
+        this.clubHomeScore = clubHomeScore;
     }
 
-    public int getSecondClubScore()
+    public int getClubAwayScore()
     {
-        return secondClubScore;
+        return clubAwayScore;
     }
 
-    public void setSecondClubScore(int secondClubScore)
+    public void setClubAwayScore(int clubAwayScore)
     {
-        this.secondClubScore = secondClubScore;
+        this.clubAwayScore = clubAwayScore;
     }
 }

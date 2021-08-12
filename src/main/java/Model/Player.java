@@ -10,9 +10,9 @@ public class Player extends Person
 
     public Player() {}
 
-    public Player(int id, String name, Date birthOfDate, String nationality, String gender, String position, String clubName)
+    public Player(int id, String name, Date birthOfDate, String country, String position)
     {
-        super(id, name, birthOfDate, nationality, gender, clubName);
+        super(id, name, birthOfDate, country);
         this.position = position;
     }
 

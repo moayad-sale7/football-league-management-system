@@ -25,20 +25,19 @@ public class ClubService
         {
             allClubs.add(new Club(result.getInt("id"),
                     result.getString("name"),
-                    result.getDate("founding_of_date")));
+                    result.getDate("founding")));
         }
 
         return allClubs;
     }
 
-    public Club getClub(String clubName) throws SQLException, ClassNotFoundException
+    public Club getClub(int clubId) throws SQLException, ClassNotFoundException
     {
-        String FirstCharUpperCaseClubName = clubName.substring(0, 1).toUpperCase() + clubName.substring(1);
         Club club = null;
-        String query = "SELECT * FROM CLUB WHERE name=?";
+        String query = "SELECT * FROM CLUB WHERE id=?";
 
         PreparedStatement preparedStatement = dbConnection.prepareStatement(query);
-        preparedStatement.setString(1, FirstCharUpperCaseClubName);
+        preparedStatement.setInt(1, clubId);
         ResultSet result = preparedStatement.executeQuery();
 
         try
@@ -46,7 +45,7 @@ public class ClubService
             result.next();
             club = new Club(result.getInt("id"),
                     result.getString("name"),
-                    result.getDate("founding_of_date"));
+                    result.getDate("founding"));
         } catch (SQLException sqlException)
         {
             System.out.println(sqlException.getMessage());
@@ -68,34 +67,31 @@ public class ClubService
             return null;
         }
 
-        String query = "INSERT INTO CLUB (name, founding_of_date) VALUES(?,?)";
+        String query = "INSERT INTO CLUB (name, founding) VALUES(?,?)";
 
         PreparedStatement preparedStatement = dbConnection.prepareStatement(query);
         preparedStatement.setString(1, name);
         preparedStatement.setDate(2, foundingOfDate);
-        int numberRowAffected = preparedStatement.executeUpdate();
+        preparedStatement.executeUpdate();
 
         return club;
     }
 
-    public Club updateClub(String clubName, Club club) throws SQLException
+    public Club updateClub(int clubId, Club club) throws SQLException
     {
-        String FirstCharUpperCaseClubName = clubName.substring(0, 1).toUpperCase() + clubName.substring(1);
         String name = (club.getName() == null) ? "" : club.getName();
         Date foundingOfDate = (club.getFoundingOfDate() == null) ? null : club.getFoundingOfDate();
 
         String query =
                 "UPDATE club SET " +
-                        "name= CASE WHEN ?='' THEN name ELSE ? END, " +
-                        "founding_of_date= CASE WHEN ? !=null THEN founding_of_date ELSE ? END " +
-                        "WHERE name=?";
+                        "name=COALESCE(?,name), " +
+                        "founding=COALESCE(?,founding) " +
+                        "WHERE id=?";
 
         PreparedStatement preparedStatement = dbConnection.prepareStatement(query);
         preparedStatement.setString(1, name);
-        preparedStatement.setString(2, name);
-        preparedStatement.setDate(3, foundingOfDate);
-        preparedStatement.setDate(4, foundingOfDate);
-        preparedStatement.setString(5, FirstCharUpperCaseClubName);
+        preparedStatement.setDate(2, foundingOfDate);
+        preparedStatement.setInt(3, clubId);
 
         try
         {
@@ -108,13 +104,11 @@ public class ClubService
         return club;
     }
 
-    public void deleteClub(String clubName) throws SQLException
+    public void deleteClub(int clubId) throws SQLException
     {
-        String FirstCharUpperCaseClubName = clubName.substring(0, 1).toUpperCase() + clubName.substring(1);
-
-        String query = "DELETE FROM club WHERE name=?";
+        String query = "DELETE FROM club WHERE id=?";
         PreparedStatement preparedStatement = dbConnection.prepareStatement(query);
-        preparedStatement.setString(1, FirstCharUpperCaseClubName);
+        preparedStatement.setInt(1, clubId);
         preparedStatement.executeUpdate();
     }
 }

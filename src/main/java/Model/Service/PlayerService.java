@@ -16,15 +16,14 @@ public class PlayerService
     public PlayerService() throws SQLException, ClassNotFoundException {}
 
     // fetching
-    public List<Player> getPlayers(String clubName) throws SQLException
+    public List<Player> getPlayers(int clubId) throws SQLException
     {
-        String FirstCharUpperCaseClubName = clubName.substring(0, 1).toUpperCase() + clubName.substring(1);
         List<Player> playersInClub = new ArrayList<>();
 
-        String query = "SELECT * FROM PLAYER WHERE club_name=?";
+        String query = "SELECT * FROM PLAYER WHERE club_id=?";
 
         preparedStatement = dbConnection.prepareStatement(query);
-        preparedStatement.setString(1, FirstCharUpperCaseClubName);
+        preparedStatement.setInt(1, clubId);
         ResultSet result = preparedStatement.executeQuery();
 
         while(result.next())
@@ -32,181 +31,200 @@ public class PlayerService
             playersInClub.add(new Player(result.getInt("id"),
                     result.getString("name"),
                     result.getDate("birth_of_date"),
-                    result.getString("nationality"),
-                    result.getString("gender"),
-                    result.getString("position"),
-                    result.getString("club_name")));
+                    result.getString("country"),
+                    result.getString("position")));
         }
 
         return playersInClub;
     }
 
-    public Player getPlayerByName(String clubName, String playerName) throws SQLException
+    public List<Player> getPlayerByName(int clubId, String playerName) throws SQLException
     {
-        Player player = null;
-        String FirstCharUpperCaseClubName = clubName.substring(0, 1).toUpperCase() + clubName.substring(1);
-        String query = "SELECT * FROM player WHERE name=? AND club_name=?";
-        preparedStatement = dbConnection.prepareStatement(query);
-       try
-       {
-           preparedStatement.setString(1, playerName);
-       } catch(Exception exception)
-       {
-           return null;
-       }
-       preparedStatement.setString(2, FirstCharUpperCaseClubName);
-       ResultSet result = preparedStatement.executeQuery();
-       while (result.next())
-           player = new Player(result.getInt("id"),
-                   result.getString("name"),
-                   result.getDate("birth_of_date"),
-                   result.getString("nationality"),
-                   result.getString("gender"),
-                   result.getString("position"),
-                   result.getString("club_name"));
+        List<Player> players = new ArrayList<>();
 
-       return player;
-    }
+        String query = "SELECT * FROM player WHERE name=? AND club_id=?";
 
-    public Player getPlayerByDate(String clubName, String date) throws SQLException
-    {
-        Player player = null;
-        String FirstCharUpperCaseClubName = clubName.substring(0, 1).toUpperCase() + clubName.substring(1);
-        String query = "SELECT * FROM player WHERE birth_of_date=? AND club_name=?";
         preparedStatement = dbConnection.prepareStatement(query);
+        preparedStatement.setString(1, playerName);
+        preparedStatement.setInt(2, clubId);
+        ResultSet result = null;
         try
         {
-            preparedStatement.setDate(1, Date.valueOf(date));
-        } catch(Exception exception)
+            result = preparedStatement.executeQuery();
+        }
+        catch (Exception exception)
         {
             return null;
         }
-        preparedStatement.setString(2, FirstCharUpperCaseClubName);
-        ResultSet result = preparedStatement.executeQuery();
-        while (result.next())
-            player = new Player(result.getInt("id"),
-                    result.getString("name"),
-                    result.getDate("birth_of_date"),
-                    result.getString("nationality"),
-                    result.getString("gender"),
-                    result.getString("position"),
-                    result.getString("club_name"));
+        finally
+        {
+            while (result.next())
+                players.add(new Player(result.getInt("id"),
+                        result.getString("name"),
+                        result.getDate("birth_of_date"),
+                        result.getString("country"),
+                        result.getString("position")));
+        }
 
-        return player;
+        return players;
     }
 
-    public Player getPlayerByNationality(String clubName, String nationality) throws SQLException
+    public List<Player> getPlayerByDate(int clubId, String date) throws SQLException
     {
-        Player player = null;
-        String FirstCharUpperCaseClubName = clubName.substring(0, 1).toUpperCase() + clubName.substring(1);
-        String query = "SELECT * FROM player WHERE nationality=? AND club_name=?";
-        preparedStatement = dbConnection.prepareStatement(query);
+        List<Player> players = new ArrayList<>();
+        String query = "SELECT * FROM player WHERE birth_of_date=? AND club_id=?";
 
+        preparedStatement = dbConnection.prepareStatement(query);
+        preparedStatement.setDate(1, Date.valueOf(date));
+        preparedStatement.setInt(2, clubId);
+
+        ResultSet result = null;
         try
         {
-            preparedStatement.setString(1, nationality);
-        } catch(Exception exception)
+            result = preparedStatement.executeQuery();
+        }
+        catch (Exception exception)
         {
             return null;
         }
-        preparedStatement.setString(2, FirstCharUpperCaseClubName);
-        ResultSet result = preparedStatement.executeQuery();
-        while (result.next())
-            player = new Player(result.getInt("id"),
-                    result.getString("name"),
-                    result.getDate("birth_of_date"),
-                    result.getString("nationality"),
-                    result.getString("gender"),
-                    result.getString("position"),
-                    result.getString("club_name"));
-
-        return player;
+        finally
+        {
+            while (result.next())
+                 players.add(new Player(result.getInt("id"),
+                        result.getString("name"),
+                        result.getDate("birth_of_date"),
+                        result.getString("country"),
+                        result.getString("position")));
+        }
+        return players;
     }
 
-    public Player getPlayerByPosition(String clubName, String position) throws SQLException {
-        Player player = null;
-        String FirstCharUpperCaseClubName = clubName.substring(0, 1).toUpperCase() + clubName.substring(1);
-        String query = "SELECT * FROM player WHERE position=? AND club_name=?";
-        preparedStatement = dbConnection.prepareStatement(query);
+    public List<Player> getPlayerByCountry(int clubId, String country) throws SQLException
+    {
+        List<Player> players = new ArrayList<>();
 
+        String query = "SELECT * FROM player WHERE country=? AND club_id=?";
+
+        preparedStatement = dbConnection.prepareStatement(query);
+        preparedStatement.setString(1, country);
+        preparedStatement.setInt(2, clubId);
+
+        ResultSet result = null;
         try
         {
-            preparedStatement.setString(1, position);
-        } catch(Exception exception)
+            result = preparedStatement.executeQuery();
+        }
+        catch (Exception exception)
         {
             return null;
         }
-        preparedStatement.setString(2, FirstCharUpperCaseClubName);
-        ResultSet result = preparedStatement.executeQuery();
-        while (result.next())
-            player = new Player(result.getInt("id"),
-                    result.getString("name"),
-                    result.getDate("birth_of_date"),
-                    result.getString("nationality"),
-                    result.getString("gender"),
-                    result.getString("position"),
-                    result.getString("club_name"));
+        finally
+        {
+            while (result.next())
+                players.add(new Player(result.getInt("id"),
+                        result.getString("name"),
+                        result.getDate("birth_of_date"),
+                        result.getString("country"),
+                        result.getString("position")));
+        }
 
-        return player;
+        return players;
+    }
+
+    public List<Player> getPlayerByPosition(int clubId, String position) throws SQLException
+    {
+        List<Player> players = new ArrayList<>();
+
+        String query = "SELECT * FROM player WHERE position=? AND club_id=?";
+
+        preparedStatement = dbConnection.prepareStatement(query);
+        preparedStatement.setString(1, position);
+        preparedStatement.setInt(2, clubId);
+
+        ResultSet result = null;
+        try
+        {
+            result = preparedStatement.executeQuery();
+        }
+        catch (Exception exception)
+        {
+            return null;
+        }
+        finally
+        {
+            while (result.next())
+                players.add(new Player(result.getInt("id"),
+                result.getString("name"),
+                result.getDate("birth_of_date"),
+                result.getString("country"),
+                result.getString("position")));
+        }
+
+        return players;
     }
 
     // adding
-    public Player addPlayer(String clubName, Player player) throws SQLException
+    public Player addPlayer(int clubId, Player player) throws SQLException
     {
         String name = player.getName();
         Date birthOfDate = player.getBirthOfDate();
-        String nationality = player.getNationality();
-        String gender = player.getGender();
+        String nationality = player.getCountry();
         String position = player.getPosition();
-        String FirstCharUpperCaseClubName = clubName.substring(0, 1).toUpperCase() + clubName.substring(1);
-
 
         String query = "INSERT INTO player " +
-                "(name, birth_of_date, nationality, gender, position, club_name) " +
-                "VALUES(?,?,?,?,?,?)";
+                       "(name, country, birth_of_date, position, club_id) " +
+                       "VALUES(?,?,?,?,?)";
 
         preparedStatement = dbConnection.prepareStatement(query);
         preparedStatement.setString(1, name);
-        preparedStatement.setDate(2, birthOfDate);
-        preparedStatement.setString(3, nationality);
-        preparedStatement.setString(4, gender);
-        preparedStatement.setString(5, position);
-        preparedStatement.setString(6, FirstCharUpperCaseClubName);
+        preparedStatement.setString(2, nationality);
+        preparedStatement.setDate(3, birthOfDate);
+        preparedStatement.setString(4, position);
+        preparedStatement.setInt(5, clubId);
 
-        preparedStatement.executeUpdate();
+        try
+        {
+            preparedStatement.executeUpdate();
+        }
+        catch (Exception exception)
+        {
+            return null;
+        }
 
         return player;
     }
 
     // updating
-    public Player updatePlayer(String clubName, int playerId, Player player) throws SQLException
+    public Player updatePlayer(int clubId, int playerId, Player player) throws SQLException
     {
         String name = player.getName();
         Date birthOfDate = player.getBirthOfDate();
-        String nationality = player.getNationality();
-        String gender = player.getGender();
+        String country = player.getCountry();
         String position = player.getPosition();
-        String FirstCharUpperCaseOfClubName = clubName.substring(0, 1).toUpperCase() + clubName.substring(1);
 
-        String query =
-                "UPDATE player SET " +
-                        "name=COALESCE(?,name), " +
-                        "nationality=COALESCE(?,nationality), " +
-                        "gender=COALESCE(?,gender), " +
-                        "position=COALESCE(?,position), " +
-                        "birth_of_date=COALESCE(?,birth_of_date) " +
-                        "WHERE id=? AND club_name=?";
+        String query = "UPDATE player SET " +
+                       "name=COALESCE(?,name), " +
+                       "country=COALESCE(?,country), " +
+                       "birth_of_date=COALESCE(?,birth_of_date) " +
+                       "position=COALESCE(?,position), " +
+                       "WHERE id=? AND club_id=?";
 
         preparedStatement = dbConnection.prepareStatement(query);
         preparedStatement.setString(1, name);
-        preparedStatement.setString(2, nationality);
-        preparedStatement.setString(3, gender);
+        preparedStatement.setString(2, country);
+        preparedStatement.setDate(3, birthOfDate);
         preparedStatement.setString(4, position);
-        preparedStatement.setDate(5, birthOfDate);
-        preparedStatement.setInt(6, playerId);
-        preparedStatement.setString(7, FirstCharUpperCaseOfClubName);
+        preparedStatement.setInt(5, playerId);
+        preparedStatement.setInt(6, clubId);
 
-        preparedStatement.executeUpdate();
+        try
+        {
+            preparedStatement.executeUpdate();
+        }
+        catch (Exception exception)
+        {
+            return null;
+        }
 
         return player;
     }
