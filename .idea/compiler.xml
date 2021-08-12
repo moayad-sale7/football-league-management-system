@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="saudi-pro-league-with-jersey" />
         <module name="spl" />
+        <module name="football-league-management-system" />
       </profile>
     </annotationProcessing>
   </component>

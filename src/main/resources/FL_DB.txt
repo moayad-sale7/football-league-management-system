@@ -1,0 +1,329 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 13.3
+-- Dumped by pg_dump version 13.3
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- Name: club; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.club (
+    id bigint NOT NULL,
+    name character varying(50) NOT NULL,
+    founding date NOT NULL
+);
+
+
+--
+-- Name: club_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.club_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: club_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.club_id_seq OWNED BY public.club.id;
+
+
+--
+-- Name: match; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.match (
+    id bigint NOT NULL,
+    date date NOT NULL,
+    status character varying(20) NOT NULL,
+    winner character varying(30),
+    club_home integer NOT NULL,
+    club_away integer NOT NULL,
+    club_home_score integer,
+    club_away_score integer
+);
+
+
+--
+-- Name: match_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.match_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: match_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.match_id_seq OWNED BY public.match.id;
+
+
+--
+-- Name: player; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.player (
+    id bigint NOT NULL,
+    name character varying(50) NOT NULL,
+    country character varying(30) NOT NULL,
+    birth_of_date date NOT NULL,
+    "position" character varying(30) NOT NULL,
+    club_id integer NOT NULL
+);
+
+
+--
+-- Name: player_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.player_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: player_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.player_id_seq OWNED BY public.player.id;
+
+
+--
+-- Name: staff; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.staff (
+    id bigint NOT NULL,
+    name character varying(50) NOT NULL,
+    country character varying(30) NOT NULL,
+    birth_of_date date NOT NULL,
+    role character varying(30) NOT NULL,
+    club_id integer NOT NULL
+);
+
+
+--
+-- Name: staff_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.staff_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: staff_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.staff_id_seq OWNED BY public.staff.id;
+
+
+--
+-- Name: club id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.club ALTER COLUMN id SET DEFAULT nextval('public.club_id_seq'::regclass);
+
+
+--
+-- Name: match id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.match ALTER COLUMN id SET DEFAULT nextval('public.match_id_seq'::regclass);
+
+
+--
+-- Name: player id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.player ALTER COLUMN id SET DEFAULT nextval('public.player_id_seq'::regclass);
+
+
+--
+-- Name: staff id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.staff ALTER COLUMN id SET DEFAULT nextval('public.staff_id_seq'::regclass);
+
+
+--
+-- Data for Name: club; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY public.club (id, name, founding) FROM stdin;
+1	Ittihad	1927-01-04
+2	Hilal	1957-09-14
+3	Shabab	1967-07-01
+\.
+
+
+--
+-- Data for Name: match; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY public.match (id, date, status, winner, club_home, club_away, club_home_score, club_away_score) FROM stdin;
+3	2020-10-09	finished	Ittihad	1	2	2	1
+4	2020-10-14	finished	Draw	1	3	1	1
+\.
+
+
+--
+-- Data for Name: player; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY public.player (id, name, country, birth_of_date, "position", club_id) FROM stdin;
+1	Ahmed Hegazy	Egypt	1991-01-25	Defender	1
+2	Marcelo Grohe	Brazil	1987-01-13	Goalkeeper	1
+3	Fahad Almuwallad	Saudi Arabia	1994-10-14	attack	1
+4	Abdullah Almuaiouf	Saudi Arabia	1997-01-23	Goalkeeper	2
+5	Salem Aldawsari	Saudi Arabia	1991-08-19	Attack	2
+6	Bafétimbi Gomis	France	1985-08-06	Attack	2
+7	Nawaf Alabed	Saudi Arabia	1990-01-26	Midfield	3
+8	Éver Banega	Argentina	1988-01-29	Midfield	3
+9	Fawaz Alqarni	Saudi Arabia	1992-04-02	Goalkeeper	3
+\.
+
+
+--
+-- Data for Name: staff; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY public.staff (id, name, country, birth_of_date, role, club_id) FROM stdin;
+1	Fábio Carille	Brazil	1973-10-26	Manager	1
+2	Bandar Basraih	Saudi Arabia	1977-06-22	Assistant Manager	1
+3	Leonardo Jardim	Portugal	1974-08-01	Manager	2
+4	José Barros	Portugal	1974-05-22	Assistant Manager	2
+5	Carlos Inarejos	Spain	1984-05-27	Manager	3
+6	Pablo Manusovich	Argentina	1982-02-16	Assistant Manager	3
+\.
+
+
+--
+-- Name: club_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public.club_id_seq', 3, true);
+
+
+--
+-- Name: match_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public.match_id_seq', 4, true);
+
+
+--
+-- Name: player_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public.player_id_seq', 9, true);
+
+
+--
+-- Name: staff_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public.staff_id_seq', 6, true);
+
+
+--
+-- Name: club club_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.club
+    ADD CONSTRAINT club_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: match match_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.match
+    ADD CONSTRAINT match_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: player player_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.player
+    ADD CONSTRAINT player_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: staff staff_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.staff
+    ADD CONSTRAINT staff_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: match match_club_away_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.match
+    ADD CONSTRAINT match_club_away_fkey FOREIGN KEY (club_away) REFERENCES public.club(id);
+
+
+--
+-- Name: match match_club_home_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.match
+    ADD CONSTRAINT match_club_home_fkey FOREIGN KEY (club_home) REFERENCES public.club(id);
+
+
+--
+-- Name: player player_club_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.player
+    ADD CONSTRAINT player_club_id_fkey FOREIGN KEY (club_id) REFERENCES public.club(id);
+
+
+--
+-- Name: staff staff_club_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.staff
+    ADD CONSTRAINT staff_club_id_fkey FOREIGN KEY (club_id) REFERENCES public.club(id);
+
+
+--
+-- PostgreSQL database dump complete
+--
+
