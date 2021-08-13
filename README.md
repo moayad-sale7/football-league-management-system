@@ -6,7 +6,7 @@ these are the endpoints
 
  - Club
  
-`/api/clubs/ or /api/clubs/{club_id}/` 
+`/api/clubs/ or /api/clubs/{club_id}/` Methods: GET, POST, PUT, DELETE
 
  - Player
  
